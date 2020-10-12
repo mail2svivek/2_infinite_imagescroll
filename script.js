@@ -1,5 +1,5 @@
 console.log('testing:')
-const count = 1
+const count = 2
 const API_KEY1='d_gPW6dN42uOk1GwSJzMoww82l6jmkFw7rhxCL0JEpM'
 const API_KEY2='mqo9AHg1LT939lNLC48mqrGpInJiGQpyN9tG9tg5WkM'
 const API_KEY3='rFs_Bo9KLGvLLYgwFN7kvb01qMPpHPYqGOwibXlpqD8'
@@ -15,7 +15,8 @@ const API_KEY12='DbnEIUy2xZ7-963e7mTJsf319nDtqsTu-KvbasnS5JQ'
 const API_KEY13='BXncE4RH7-J5r325eT8i_Qpi5hCsi8oVl38XKwSV6Rc'
 
 const API_ARRAY = [API_KEY1,API_KEY2,API_KEY3,API_KEY4,API_KEY5,API_KEY6,API_KEY7,API_KEY8,API_KEY9,API_KEY10,API_KEY11,API_KEY12,API_KEY13]
-let imageUrl = ``
+let apiUrl = ``
+
 const imageContainer = document.getElementById('image-container')
 const loader = document.getElementById('loader')
 let photosArray=[]
@@ -23,9 +24,9 @@ let photosArray=[]
 // Unsplash allows us 50 images an hour per account. This is will break the fetch after 50 images download. so i have made 13 accounts and randomly selecting an account when the page loads
 function setRandomAccount(){
   let randNum=Math.floor(Math.random()*API_ARRAY.length)
-  imageUrl = `https://api.unsplash.com/photos/random/?client_id=${API_ARRAY[randNum]}&count=${count}`
+  apiUrl = `https://api.unsplash.com/photos/random/?client_id=${API_ARRAY[randNum]}&count=${count}`
   console.log(`random number picked = ${randNum}`)
-  console.log(`key: ${imageUrl}`)
+  console.log(`key: ${apiUrl}`)
 }
 //helper function to setAttributes. attributes is a dictionary object with key as the property of the element and vale as the value of the property to set
 
@@ -35,11 +36,20 @@ function setElementAttributes(element, attributes) {
   }
 }
 
+// Helper Function to Set Attributes on DOM Elements
+function setAttributes(element, attributes) {
+  for (const key in attributes) {
+    element.setAttribute(key, attributes[key]);
+  }
+}
+
+
 
 function displayPhotos(){
  
   photosArray.forEach((photo)=>{
- 
+  console.log(`length:${photosArray.length}: displaying: ${photo.alt_description}`)
+
    // create an a tag to link an image to its href. Within the a tag you create an img tag. set the target property to _blank so that image opens on a new page 
    const item = document.createElement('a')
    setElementAttributes(item,{'href':photo.links.html,
@@ -60,45 +70,137 @@ function displayPhotos(){
  
 
 
+// // Create Elements For Links & Photos, Add to DOM
+// function displayPhotos() {
+//   // Run function for each object in photosArray
+//   photosArray.forEach((photo) => {
+//     // Create <a> to link to Unsplash
+//     const item = document.createElement('a');
+//     setAttributes(item, {
+//       href: photo.links.html,
+//       target: '_blank',
+//     });
+//     // Create <img> for photo
+//     const img = document.createElement('img');
+//     setAttributes(img, {
+//       src: photo.urls.regular,
+//       alt: photo.alt_description,
+//       title: photo.alt_description,
+//     });
+//     // Put <img> inside <a>, then put both inside imageContainer Element
+//     item.appendChild(img);
+//     imageContainer.appendChild(item);
+//   });
+// }
 
 
 
 
-function displayPhotosOLD(){
- 
- photosArray.forEach((photo)=>{
 
-  // create an a tag to link an image to its href. Within the a tag you create an img tag. set the target property to _blank so that image opens on a new page 
-  const item = document.createElement('a')
-  item.setAttribute('href',photo.links.html)
-  item.setAttribute('target','_blank')
-  // create an image element. set arc alt and title properties from the received data.
+// Get photos from Unsplash API
+// async function getPhotos() {
+//   try {
+//     const response = await fetch(apiUrl);
+//     photosArray = await response.json();
+//     displayPhotos();
+//   } catch (error) {
+//     // Catch Error Here
+//   }
+// }
 
-  const img = document.createElement('img')
-  img.setAttribute('src',photo.urls.regular)
-  img.setAttribute('alt',photo.alt_description)
-  img.setAttribute('title',photo.alt_description)
-  
-  // Put image img element inside the anchor Element
-  item.appendChild(img)
-  // Put anchor element inside the image container Element
-  imageContainer.appendChild(item)
- })
-}
 
-async function getImage(){
+
+async function getPhotos(){
  try {
-   let apiResponse = await fetch(imageUrl)
-   photosArray = await apiResponse.json()
+   let response = await fetch(apiUrl)
+   photosArray = await response.json()
    displayPhotos()
    console.log(photosArray)
-
  } catch(error){
 
  }
-  
+
 }
 
 
+
+
+
+
+// Implement Infinite scrolling.. 
+// window.innerHelight = height of the window 'windowHeight'
+// window.scrollY = pixels which the user has scrolled 'scrolledHeight'
+// document.body.offsetHeight = pixels of the height of the document loaded in the browser 'documentTotalLoadHeight'
+// if (windowHeight + scrolledHeight >= documentTotalLoadHeight -1000  )
+
+// window.addEventListener('scroll',()=>{
+//   let windowHeight= window.innerHeight
+//   let scrolledHeight= window.scrollY
+//   let documentTotalLoadHeight= document.body.offsetHeight
+//   if (windowHeight + scrolledHeight >= documentTotalLoadHeight -100){
+//     console.log('Loadmore')
+//     getPhotos()
+//   } else {
+
+//   }
+
+// })
+
+
+// Check to see if scrolling near bottom of page, Load More Photos
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+    getPhotos();
+    console.log('load more');
+  }
+});
+
 setRandomAccount()
-getImage()
+getPhotos()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function displayPhotosOLD(){
+ 
+//   photosArray.forEach((photo)=>{
+//    console.log(`length:${photosArray.length}: displaying: ${photo.alt_description}`)
+//    // create an a tag to link an image to its href. Within the a tag you create an img tag. set the target property to _blank so that image opens on a new page 
+//    const item = document.createElement('a')
+//    item.setAttribute('href',photo.links.html)
+//    item.setAttribute('target','_blank')
+//    // create an image element. set arc alt and title properties from the received data.
+ 
+//    const img = document.createElement('img')
+//    img.setAttribute('src',photo.urls.regular)
+//    img.setAttribute('alt',photo.alt_description)
+//    img.setAttribute('title',photo.alt_description)
+   
+//    // Put image img element inside the anchor Element
+//    item.appendChild(img)
+//    // Put anchor element inside the image container Element
+//    imageContainer.appendChild(item)
+//   })
+//  }
+ 
