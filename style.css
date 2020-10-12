@@ -1,3 +1,6 @@
+/* Attaching google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed&display=swap');
+
 html {
  /* prevents padding from adding extra width and height. page is stretched/ reduced to fit the browser window */
  box-sizing: border-box; 
@@ -5,5 +8,36 @@ html {
 
 body {
  margin:0;
- min-height: 100vh;
+ font-family: 'Sansita Swashed', cursive, sans-serif;
+ font-size: 16px;
+ background-color: whitesmoke;
+}
+
+h1 {
+ text-align: center;
+ margin-top: 0.6em;
+ margin-bottom: 0.4em;
+ font-size: 2.5rem;
+ letter-spacing: 0.05em;
+}
+
+/* Loader */
+/* Create an offwhite layer on the page and then put the loader in the center */
+.loader{
+ position: fixed;
+ /* to pull across the page use the trick. put top bottom left right to be Zero so they pull the background across the 4 corners of the page. hence the loader extends between the 4 corners i.e. across the page */
+ 
+ top:0;
+ bottom: 0;
+ left:0;
+ right:0;
+ background: rgba(255,255,255,0.6);/* Add an offwhite layer 255,255,255 is white with 0.6 opacity*/
+}
+
+/* Target the img tag inside the loader class. img is a child of the loader class */
+.loader img{
+ position: fixed;
+ top:50%;
+ left:50%;
+ transform: translate(-50%,-50%)
 }
