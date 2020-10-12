@@ -40,7 +40,7 @@ function imageLoaded(){
     ready=true
     console.log('ready now image loaded = ${imagesLoaded}')
     let loaderEle = document.getElementById('loader')
-    loaderEle.style.display='none'
+    loaderEle.style.display='none' 
     // imagesLoaded = 0
   }
 }
