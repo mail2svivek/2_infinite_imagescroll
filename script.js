@@ -41,7 +41,7 @@ function imageLoaded(){
     console.log('ready now image loaded = ${imagesLoaded}')
     let loaderEle = document.getElementById('loader')
     loaderEle.style.display='none' 
-    // imagesLoaded = 0
+    // imagesLoaded = 0   
   }
 }
 
