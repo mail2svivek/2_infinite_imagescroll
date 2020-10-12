@@ -39,5 +39,6 @@ h1 {
  position: fixed;
  top:50%;
  left:50%;
+  /* Note: With above the loader is not on th ecenter of the page. Only the tip of the loader is at the center. Now to push the loader to the center we have to move the loader -50% on x(up) and -50% on y(left). then the loader's center is same as the page center. Remember 50% is from the size of the loader on that axis. Also movement is done by setting the transform property and setting it to translate(-50%,-50%) */
  transform: translate(-50%,-50%)
 }
