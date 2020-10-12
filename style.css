@@ -46,7 +46,7 @@ h1 {
 /* Styling Image Container */
 
 .image-container{
- border: 2px solid magenta;
+ /* border: 2px solid magenta; */
  /* top bottom of 10px and left and right of 20% each. image is 60% wide */
  margin: 10px 20%;
 
@@ -72,7 +72,7 @@ So for anything with width less than 600px plz do
   letter-spacing: 0.02em;
  }
  .image-container{
-  border: 2px solid magenta;
+  /* border: 2px solid magenta; */
   margin: 10px;
  
  }

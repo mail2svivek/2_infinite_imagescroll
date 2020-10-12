@@ -90,11 +90,8 @@ async function getPhotos(){
    displayPhotos()
    console.log(photosArray)
  } catch(error){
-
  }
-
 }
-
 
 // Implement Infinite scrolling.. 
 // window.innerHelight = height of the window 'windowHeight'
