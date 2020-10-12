@@ -1,5 +1,5 @@
 console.log('testing:')
-const count = 2
+const count = 4
 const API_KEY1='d_gPW6dN42uOk1GwSJzMoww82l6jmkFw7rhxCL0JEpM'
 const API_KEY2='mqo9AHg1LT939lNLC48mqrGpInJiGQpyN9tG9tg5WkM'
 const API_KEY3='rFs_Bo9KLGvLLYgwFN7kvb01qMPpHPYqGOwibXlpqD8'
@@ -21,6 +21,11 @@ const imageContainer = document.getElementById('image-container')
 const loader = document.getElementById('loader')
 let photosArray=[]
 
+let ready=false;
+let imagesLoaded = 0;
+let totalImages = 0;
+
+
 // Unsplash allows us 50 images an hour per account. This is will break the fetch after 50 images download. so i have made 13 accounts and randomly selecting an account when the page loads
 function setRandomAccount(){
   let randNum=Math.floor(Math.random()*API_ARRAY.length)
@@ -28,7 +33,18 @@ function setRandomAccount(){
   console.log(`random number picked = ${randNum}`)
   console.log(`key: ${apiUrl}`)
 }
+
+function imageLoaded(){
+  imagesLoaded++
+  if (imagesLoaded === totalImages) {
+    ready=true
+    console.log('ready now image loaded = ${imagesLoaded}')
+    // imagesLoaded = 0
+  }
+}
+
 //helper function to setAttributes. attributes is a dictionary object with key as the property of the element and vale as the value of the property to set
+// Helper Function to Set Attributes on DOM Elements
 
 function setElementAttributes(element, attributes) {
   for (let key in attributes){
@@ -36,17 +52,11 @@ function setElementAttributes(element, attributes) {
   }
 }
 
-// Helper Function to Set Attributes on DOM Elements
-function setAttributes(element, attributes) {
-  for (const key in attributes) {
-    element.setAttribute(key, attributes[key]);
-  }
-}
-
-
 
 function displayPhotos(){
- 
+  imagesLoaded=0
+  totalImages=photosArray.length
+  console.log(`totalImages = ${totalImages}`)
   photosArray.forEach((photo)=>{
   console.log(`length:${photosArray.length}: displaying: ${photo.alt_description}`)
 
@@ -61,53 +71,16 @@ function displayPhotos(){
           'src':photo.urls.regular,
           'alt':photo.alt_description,
           'title':photo.alt_description})   
-   // Put image img element inside the anchor Element
+
+  // Event Listerner check when each image has been loaded
+    img.addEventListener('load', imageLoaded)
+  // Put image img element inside the anchor Element
    item.appendChild(img)
    // Put anchor element inside the image container Element
    imageContainer.appendChild(item)
   })
  }
  
-
-
-// // Create Elements For Links & Photos, Add to DOM
-// function displayPhotos() {
-//   // Run function for each object in photosArray
-//   photosArray.forEach((photo) => {
-//     // Create <a> to link to Unsplash
-//     const item = document.createElement('a');
-//     setAttributes(item, {
-//       href: photo.links.html,
-//       target: '_blank',
-//     });
-//     // Create <img> for photo
-//     const img = document.createElement('img');
-//     setAttributes(img, {
-//       src: photo.urls.regular,
-//       alt: photo.alt_description,
-//       title: photo.alt_description,
-//     });
-//     // Put <img> inside <a>, then put both inside imageContainer Element
-//     item.appendChild(img);
-//     imageContainer.appendChild(item);
-//   });
-// }
-
-
-
-
-
-// Get photos from Unsplash API
-// async function getPhotos() {
-//   try {
-//     const response = await fetch(apiUrl);
-//     photosArray = await response.json();
-//     displayPhotos();
-//   } catch (error) {
-//     // Catch Error Here
-//   }
-// }
-
 
 
 async function getPhotos(){
@@ -123,84 +96,26 @@ async function getPhotos(){
 }
 
 
-
-
-
-
 // Implement Infinite scrolling.. 
 // window.innerHelight = height of the window 'windowHeight'
 // window.scrollY = pixels which the user has scrolled 'scrolledHeight'
 // document.body.offsetHeight = pixels of the height of the document loaded in the browser 'documentTotalLoadHeight'
-// if (windowHeight + scrolledHeight >= documentTotalLoadHeight -1000  )
+// if (windowHeight + scrolledHeight >= documentTotalLoadHeight -1000 )
 
-// window.addEventListener('scroll',()=>{
-//   let windowHeight= window.innerHeight
-//   let scrolledHeight= window.scrollY
-//   let documentTotalLoadHeight= document.body.offsetHeight
-//   if (windowHeight + scrolledHeight >= documentTotalLoadHeight -100){
-//     console.log('Loadmore')
-//     getPhotos()
-//   } else {
+window.addEventListener('scroll',()=>{
+  let windowHeight= window.innerHeight
+  let scrolledHeight= window.scrollY
+  let documentTotalLoadHeight= document.body.offsetHeight
+  if (windowHeight + scrolledHeight >= documentTotalLoadHeight -1000 && ready){
+    ready=false
+    console.log('Loadmore')
+    getPhotos()
 
-//   }
+  } else {
 
-// })
-
-
-// Check to see if scrolling near bottom of page, Load More Photos
-window.addEventListener('scroll', () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-    getPhotos();
-    console.log('load more');
   }
-});
+
+})
 
 setRandomAccount()
 getPhotos()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function displayPhotosOLD(){
- 
-//   photosArray.forEach((photo)=>{
-//    console.log(`length:${photosArray.length}: displaying: ${photo.alt_description}`)
-//    // create an a tag to link an image to its href. Within the a tag you create an img tag. set the target property to _blank so that image opens on a new page 
-//    const item = document.createElement('a')
-//    item.setAttribute('href',photo.links.html)
-//    item.setAttribute('target','_blank')
-//    // create an image element. set arc alt and title properties from the received data.
- 
-//    const img = document.createElement('img')
-//    img.setAttribute('src',photo.urls.regular)
-//    img.setAttribute('alt',photo.alt_description)
-//    img.setAttribute('title',photo.alt_description)
-   
-//    // Put image img element inside the anchor Element
-//    item.appendChild(img)
-//    // Put anchor element inside the image container Element
-//    imageContainer.appendChild(item)
-//   })
-//  }
- 
