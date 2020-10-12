@@ -1,5 +1,5 @@
 console.log('testing:')
-const count = 4
+const count = 3
 const API_KEY1='d_gPW6dN42uOk1GwSJzMoww82l6jmkFw7rhxCL0JEpM'
 const API_KEY2='mqo9AHg1LT939lNLC48mqrGpInJiGQpyN9tG9tg5WkM'
 const API_KEY3='rFs_Bo9KLGvLLYgwFN7kvb01qMPpHPYqGOwibXlpqD8'
@@ -39,6 +39,8 @@ function imageLoaded(){
   if (imagesLoaded === totalImages) {
     ready=true
     console.log('ready now image loaded = ${imagesLoaded}')
+    let loaderEle = document.getElementById('loader')
+    loaderEle.style.display='none'
     // imagesLoaded = 0
   }
 }
