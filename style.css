@@ -42,3 +42,39 @@ h1 {
   /* Note: With above the loader is not on th ecenter of the page. Only the tip of the loader is at the center. Now to push the loader to the center we have to move the loader -50% on x(up) and -50% on y(left). then the loader's center is same as the page center. Remember 50% is from the size of the loader on that axis. Also movement is done by setting the transform property and setting it to translate(-50%,-50%) */
  transform: translate(-50%,-50%)
 }
+
+/* Styling Image Container */
+
+.image-container{
+ border: 2px solid magenta;
+ /* top bottom of 10px and left and right of 20% each. image is 60% wide */
+ margin: 10px 20%;
+
+}
+
+.image-container img {
+ /* Image is 100% wide as the container */
+ width:100%;
+ /* add a margin of 0.4 rem i.e. 0.4 * 16 = 6.4 px on image top */
+ margin-top: 0.4rem;
+
+}
+
+/* Media Query for smartphones
+Pixel2 is 411 pixel wide and 823 px long from dev tools. 
+So for anything with width less than 600px plz do
+ 1. decrease the size of the heading and the spacing between the letters
+ 2. decrease the image container border from 20% Left and 20% right (total 40% to 0%)
+*/
+@media screen and (max-width: 600px) {
+ h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+ }
+ .image-container{
+  border: 2px solid magenta;
+  margin: 10px;
+ 
+ }
+ 
+}
